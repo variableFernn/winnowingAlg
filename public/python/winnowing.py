@@ -4,7 +4,9 @@ import re
 
 def preprocess(text: str) -> str:
     text = (text or "").lower()
-    return re.sub(r"[^a-z0-9]+", "", text)
+    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"[^a-z0-9 ]+", "", text)
+    return text.strip()
 
 def kgrams(text: str, k: int):
     return [text[i:i+k] for i in range(len(text) - k + 1)]
@@ -31,7 +33,7 @@ def rolling_hash(kgrams_list, base=101, mod=2**32):
 
     return hashes
 
-def winnowing(hashes, w: int):
+def windowing(hashes, w: int):
     fp = set()
     if w <= 0 or len(hashes) < w:
         return fp
@@ -50,7 +52,7 @@ def fingerprint(text: str, k: int, w: int):
         return set()
     kg = kgrams(t, k)
     hashes = rolling_hash(kg)
-    return winnowing(hashes, w)
+    return windowing(hashes, w)
 
 def similarity(fp1, fp2):
     s1 = {h for h, _ in fp1}

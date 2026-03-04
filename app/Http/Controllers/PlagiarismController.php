@@ -175,33 +175,49 @@ Pastikan file memiliki heading "ABSTRAK" dengan isi di bawahnya.',
 
         // 3) DOCX (format Word baru) - TANPA PhpWord (hindari error m:oMath, dll.)
         if ($ext === 'docx') {
+
             if (!class_exists(\ZipArchive::class)) {
-                throw new \RuntimeException(
-                    'Ekstensi PHP "zip" belum aktif. Aktifkan extension=zip di php.ini lalu restart server.'
-                );
+                throw new \RuntimeException('Extension ZIP belum aktif.');
             }
 
             $zip = new \ZipArchive();
             if ($zip->open($path) !== true) {
-                throw new \RuntimeException('Tidak dapat membuka file DOCX.');
+                throw new \RuntimeException('Tidak bisa membuka file DOCX.');
             }
 
             $xml = $zip->getFromName('word/document.xml');
             $zip->close();
 
             if ($xml === false) {
-                throw new \RuntimeException('Tidak dapat menemukan word/document.xml di file DOCX.');
+                throw new \RuntimeException('document.xml tidak ditemukan.');
             }
 
-            // Anggap setiap paragraf/line break sebagai newline
-            $xml = preg_replace('/<w:p[^>]*>/', "\n", $xml);
-            $xml = preg_replace('/<w:br[^>]*\/>/', "\n", $xml);
+            $dom = new \DOMDocument();
+            $dom->loadXML($xml);
 
-            // Buang semua tag XML (termasuk m:oMath, gambar, dsb.)
-            $text = strip_tags($xml);
-            $text = html_entity_decode($text, ENT_QUOTES | ENT_XML1, 'UTF-8');
+            $text = '';
 
-            return $text ?: '';
+            // Ambil semua paragraf <w:p>
+            $paragraphs = $dom->getElementsByTagName('p');
+
+            foreach ($paragraphs as $p) {
+
+                $line = '';
+
+                // Ambil semua teks <w:t> dalam paragraf tersebut
+                $texts = $p->getElementsByTagName('t');
+
+                foreach ($texts as $t) {
+                    $line .= $t->nodeValue;
+                }
+
+                // Jika paragraf tidak kosong, tambahkan sebagai satu baris
+                if (trim($line) !== '') {
+                    $text .= trim($line) . "\n";
+                }
+            }
+
+            return trim($text);
         }
 
         // 4) DOC (Word lama) - pakai PhpWord

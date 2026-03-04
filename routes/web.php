@@ -1,11 +1,10 @@
 <?php
-// routes/web.php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\PlagiarismController;
-use App\Http\Controllers\aboutController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\RiwayatController;
 
 /*
@@ -21,9 +20,27 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 |--------------------------------------------------------------------------
 */
 Route::prefix('deteksi')->name('deteksi.')->group(function () {
+
     Route::get('/', [PlagiarismController::class, 'index'])->name('index');
+
+    // POST Routes (utama)
     Route::post('/proses', [PlagiarismController::class, 'process'])->name('process');
     Route::post('/analyze', [PlagiarismController::class, 'analyze'])->name('analyze');
+
+    /*
+    |--------------------------------------------------------------------------
+    | 🔥 GET Safety Route (ANTI ERROR 405)
+    |--------------------------------------------------------------------------
+    | Jika ada GET ke /deteksi/proses atau /deteksi/analyze
+    | maka akan diarahkan kembali ke halaman deteksi
+    */
+    Route::get('/proses', function () {
+        return redirect()->route('deteksi.index');
+    });
+
+    Route::get('/analyze', function () {
+        return redirect()->route('deteksi.index');
+    });
 });
 
 /*
@@ -55,18 +72,27 @@ Route::prefix('dataset')->name('dataset.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| API Endpoints (Optional)
+| API Endpoints
 |--------------------------------------------------------------------------
 */
 Route::prefix('api')->group(function () {
     Route::post('/detect', [PlagiarismController::class, 'apiDetect']);
 });
 
+/*
+|--------------------------------------------------------------------------
+| Tentang Algoritma
+|--------------------------------------------------------------------------
+*/
 Route::get('/tentang', function () {
     return view('pages.about_algoritma');
 });
 
-
+/*
+|--------------------------------------------------------------------------
+| Riwayat (Controller Terpisah)
+|--------------------------------------------------------------------------
+*/
 Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
 Route::get('/riwayat/{id}', [RiwayatController::class, 'show'])->name('riwayat.show');
 Route::delete('/riwayat/{id}', [RiwayatController::class, 'destroy'])->name('riwayat.destroy');

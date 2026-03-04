@@ -644,7 +644,7 @@
     {{-- Loading Overlay --}}
     <div id="loadingOverlay" class="modal-overlay" style="display: none;">
         <div class="spinner"></div>
-        <div style="font-weight: 600; color: #1e293b;">Sedang memproses algoritma Winnowing...</div>
+        <div style="font-weight: 600; color: #64748b;">Sedang memproses algoritma Winnowing...</div>
         <div style="color: #64748b; font-size: 0.9rem;">Mohon tunggu sebentar</div>
     </div>
 
