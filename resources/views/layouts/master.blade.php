@@ -29,7 +29,7 @@
             color: #1e293b;
         }
 
-        /* Sidebar */
+        /* ───── Sidebar ───── */
         .sidebar {
             position: fixed;
             left: 0;
@@ -102,7 +102,6 @@
             color: #fff !important;
         }
 
-        /* Fix untuk link yang sudah dikunjungi */
         .nav-link:visited {
             color: #94a3b8;
         }
@@ -121,7 +120,104 @@
             font-size: 1.1rem;
         }
 
-        /* Main Content */
+        /* ───── Logout Button ───── */
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            color: #94a3b8;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.25s;
+        }
+
+        /* Hover fill background */
+        .logout-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(239, 68, 68, 0.12);
+            border-radius: 8px;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.25s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logout-btn:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .logout-btn:hover {
+            color: #f87171;
+        }
+
+        /* Icon wrapper */
+        .logout-icon-wrap {
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Door panel swings open */
+        .door-panel {
+            transform-origin: 5px 12px;
+            transition: transform 0.38s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        /* Arrow draws in */
+        .arrow-body {
+            stroke-dasharray: 12;
+            stroke-dashoffset: 12;
+            transition: stroke-dashoffset 0.3s ease 0.12s;
+        }
+
+        .arrow-head {
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: opacity 0.15s ease 0.3s, transform 0.3s ease 0.12s;
+        }
+
+        .logout-btn:hover .door-panel {
+            transform: rotateY(-50deg);
+        }
+
+        .logout-btn:hover .arrow-body {
+            stroke-dashoffset: 0;
+        }
+
+        .logout-btn:hover .arrow-head {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Label slides right */
+        .logout-label {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.25s ease;
+        }
+
+        .logout-btn:hover .logout-label {
+            transform: translateX(3px);
+        }
+
+        /* ───── Main Content ───── */
         .main-content {
             margin-left: 260px;
             padding: 30px;
@@ -144,7 +240,7 @@
             font-size: 0.95rem;
         }
 
-        /* Cards */
+        /* ───── Cards ───── */
         .card {
             background: #fff;
             border-radius: 16px;
@@ -168,7 +264,7 @@
             color: #1e293b;
         }
 
-        /* Buttons */
+        /* ───── Buttons ───── */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -222,7 +318,7 @@
             font-size: 0.8rem;
         }
 
-        /* Alerts */
+        /* ───── Alerts ───── */
         .alert {
             padding: 15px 20px;
             border-radius: 10px;
@@ -256,7 +352,7 @@
             border: 1px solid #bfdbfe;
         }
 
-        /* Form Elements */
+        /* ───── Form Elements ───── */
         .form-group {
             margin-bottom: 20px;
         }
@@ -300,7 +396,7 @@
             margin-top: 5px;
         }
 
-        /* Tables */
+        /* ───── Tables ───── */
         .table-container {
             overflow-x: auto;
         }
@@ -333,7 +429,7 @@
             background: #f8fafc;
         }
 
-        /* Badges */
+        /* ───── Badges ───── */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -363,7 +459,7 @@
             color: #1e40af;
         }
 
-        /* Stats Cards */
+        /* ───── Stats Cards ───── */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -401,7 +497,7 @@
             font-size: 0.85rem;
         }
 
-        /* Loading Overlay */
+        /* ───── Loading Overlay ───── */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -425,12 +521,10 @@
         }
 
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
-        /* Pagination */
+        /* ───── Pagination ───── */
         .pagination {
             display: flex;
             gap: 5px;
@@ -460,23 +554,7 @@
             color: #fff;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s;
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-        }
-
-        /* Progress Bar */
+        /* ───── Progress Bar ───── */
         .progress-bar {
             height: 8px;
             background: #e2e8f0;
@@ -502,7 +580,7 @@
             background: linear-gradient(90deg, #ef4444, #f87171);
         }
 
-        /* Empty State */
+        /* ───── Empty State ───── */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -517,6 +595,22 @@
         .empty-state h3 {
             color: #1e293b;
             margin-bottom: 10px;
+        }
+
+        /* ───── Responsive ───── */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
         }
     </style>
 
@@ -536,19 +630,20 @@
         <nav class="nav-section">
             <div class="nav-section-title">Menu Utama</div>
 
-            <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <a href="{{ route('dashboard') }}"
+               class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <span class="nav-icon">🏠</span>
                 Dashboard
             </a>
 
             <a href="{{ route('deteksi.index') }}"
-                class="nav-link {{ request()->routeIs('deteksi.*') ? 'active' : '' }}">
+               class="nav-link {{ request()->routeIs('deteksi.*') ? 'active' : '' }}">
                 <span class="nav-icon">🔎</span>
                 Deteksi Plagiarisme
             </a>
 
             <a href="{{ route('riwayat.index') }}"
-                class="nav-link {{ request()->routeIs('riwayat.*') ? 'active' : '' }}">
+               class="nav-link {{ request()->routeIs('riwayat.*') ? 'active' : '' }}">
                 <span class="nav-icon">📋</span>
                 Riwayat Deteksi
             </a>
@@ -558,13 +653,13 @@
             <div class="nav-section-title">Manajemen Data</div>
 
             <a href="{{ route('dataset.index') }}"
-                class="nav-link {{ request()->routeIs('dataset.index') || request()->routeIs('dataset.show') || request()->routeIs('dataset.edit') ? 'active' : '' }}">
+               class="nav-link {{ request()->routeIs('dataset.index') || request()->routeIs('dataset.show') || request()->routeIs('dataset.edit') ? 'active' : '' }}">
                 <span class="nav-icon">📚</span>
                 Data Uji
             </a>
 
             <a href="{{ route('dataset.create') }}"
-                class="nav-link {{ request()->routeIs('dataset.create') ? 'active' : '' }}">
+               class="nav-link {{ request()->routeIs('dataset.create') ? 'active' : '' }}">
                 <span class="nav-icon">➕</span>
                 Tambah Data Uji
             </a>
@@ -573,7 +668,8 @@
         <nav class="nav-section">
             <div class="nav-section-title">Informasi</div>
 
-            <a href="{{ url('/tentang') }}" class="nav-link {{ request()->is('tentang') ? 'active' : '' }}">
+            <a href="{{ url('/tentang') }}"
+               class="nav-link {{ request()->is('tentang') ? 'active' : '' }}">
                 <span class="nav-icon">📖</span>
                 Tentang Algoritma
             </a>
@@ -582,6 +678,47 @@
                 <span class="nav-icon">❓</span>
                 Bantuan
             </a>
+
+            {{-- ── Logout Button with Animation ── --}}
+            <button class="logout-btn"
+                    onclick="document.getElementById('logout-form').submit()">
+
+                <span class="logout-icon-wrap">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        {{-- Door frame --}}
+                        <rect x="3" y="3" width="11" height="18" rx="1.5"
+                              stroke="currentColor" stroke-width="1.6"/>
+                        {{-- Door panel (swings open on hover) --}}
+                        <g class="door-panel">
+                            <rect x="4" y="4" width="9" height="16" rx="1"
+                                  fill="currentColor" opacity="0.18"/>
+                            <circle cx="11.5" cy="12" r="1"
+                                    fill="currentColor"/>
+                        </g>
+                        {{-- Exit arrow body --}}
+                        <line class="arrow-body"
+                              x1="14" y1="12" x2="22" y2="12"
+                              stroke="currentColor" stroke-width="1.8"
+                              stroke-linecap="round"/>
+                        {{-- Exit arrow head --}}
+                        <g class="arrow-head">
+                            <polyline points="19,9 22,12 19,15"
+                                      stroke="currentColor" stroke-width="1.8"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="none"/>
+                        </g>
+                    </svg>
+                </span>
+
+                <span class="logout-label">Logout</span>
+            </button>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                  style="display: none;">
+                @csrf
+            </form>
         </nav>
     </aside>
 
